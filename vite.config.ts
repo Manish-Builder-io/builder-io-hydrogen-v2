@@ -3,6 +3,7 @@ import {hydrogen} from '@shopify/hydrogen/vite';
 import {oxygen} from '@shopify/mini-oxygen/vite';
 import {reactRouter} from '@react-router/dev/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import {builderDevTools} from '@builder.io/dev-tools/vite';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
@@ -12,6 +13,7 @@ export default defineConfig({
     oxygen(),
     reactRouter(),
     tsconfigPaths(),
+    builderDevTools(),
   ],
   build: {
     // Allow a strict Content-Security-Policy

@@ -20,6 +20,8 @@ declare global {
 
   interface Env extends HydrogenEnv {
     // declare additional Env parameter use in the fetch handler and Remix loader context here
+    PUBLIC_BUILDER_API_KEY: string;
+    VITE_PUBLIC_BUILDER_KEY: string;
   }
 }
 

@@ -42,7 +42,41 @@ export default async function handleRequest(
   }
 
   responseHeaders.set('Content-Type', 'text/html');
-  responseHeaders.set('Content-Security-Policy', header);
+  // Extend CSP to allow Builder and local assets for images and tracking requests
+  let updatedHeader = header;
+  const ensureSources = (
+    directive: 'img-src' | 'connect-src',
+    required: string[],
+  ) => {
+    if (new RegExp(`${directive}\\s`).test(updatedHeader)) {
+      updatedHeader = updatedHeader.replace(
+        new RegExp(`${directive}\\s+([^;]+)`),
+        (match, sources) => {
+          const missing = required.filter((s) => !sources.includes(s));
+          return missing.length ? `${directive} ${sources} ${missing.join(' ')}` : match;
+        },
+      );
+    } else {
+      updatedHeader += `; ${directive} ${required.join(' ')}`;
+    }
+  };
+
+  ensureSources('img-src', [
+    "'self'",
+    'data:',
+    'blob:',
+    'https://cdn.builder.io',
+    'https://cdn.shopify.com',
+    'https://shopify.com',
+    'http://localhost:*',
+  ]);
+
+  ensureSources('connect-src', [
+    'https://cdn.builder.io',
+    'https://cdn.builder.codes',
+  ]);
+
+  responseHeaders.set('Content-Security-Policy', updatedHeader);
 
   return new Response(body, {
     headers: responseHeaders,

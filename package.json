@@ -14,6 +14,8 @@
   },
   "prettier": "@shopify/prettier-config",
   "dependencies": {
+    "@builder.io/dev-tools": "^1.11.47",
+    "@builder.io/sdk-react": "^4.2.4",
     "@shopify/hydrogen": "2025.5.0",
     "@shopify/remix-oxygen": "^3.0.0",
     "graphql": "^16.10.0",
